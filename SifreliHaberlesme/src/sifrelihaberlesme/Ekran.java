@@ -1,6 +1,7 @@
 
 package sifrelihaberlesme;
 
+import java.util.ArrayList;
 import javax.swing.JFrame;
 
 public class Ekran extends javax.swing.JFrame {
@@ -52,6 +53,7 @@ public class Ekran extends javax.swing.JFrame {
         sifreliMetin.setRows(5);
         jScrollPane2.setViewportView(sifreliMetin);
 
+        cozumluMetin.setEditable(false);
         cozumluMetin.setColumns(20);
         cozumluMetin.setRows(5);
         jScrollPane3.setViewportView(cozumluMetin);
@@ -133,15 +135,15 @@ public class Ekran extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void gonderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gonderActionPerformed
-        cozumluMetin.setText(asilMetin.getText() + "\nmesaj gönderdi");
+        cozumluMetin.setText(asilMetin.getText() + "");
     }//GEN-LAST:event_gonderActionPerformed
 
     private void sifreleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifreleActionPerformed
-        sifreliMetin.setText(asilMetin.getText() + "\nmetin şifrelendi");
+        sifreliMetin.setText(sifre(tuzla(asilMetin.getText())) + "");
     }//GEN-LAST:event_sifreleActionPerformed
 
     private void cozumleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cozumleActionPerformed
-        cozumluMetin.setText(sifreliMetin.getText() + "\nmetin cozumlendi");
+        cozumluMetin.setText(cozum(harfAl(asilMetin.getText())) + "");
     }//GEN-LAST:event_cozumleActionPerformed
 
     public static void main(String args[]) {
@@ -151,11 +153,71 @@ public class Ekran extends javax.swing.JFrame {
             }
         });
     }
-    public void Sifrele(){
-        //metni şifreleyip gösterilecek kısm burası
+    
+    public ArrayList harfAl(String cumle){
+        ArrayList kelime = new ArrayList<Integer>();
+        ArrayList tuz = new ArrayList<Integer>();
+        int ascii = 0;
+        int[] dizi= null; 
+        for(int i = 0; i<cumle.toCharArray().length ; i++){
+            char character = cumle.charAt(i);
+            ascii = (int) character; 
+            ascii = 5701*ascii;
+            ascii -=10;
+            kelime.add(ascii);
+            tuz.add(ascii);
+            ascii = 6379*ascii;
+            ascii -=13;
+            tuz.add(ascii);
+        }
+        return kelime;
+     }
+    public ArrayList tuzla(String cumle){
+        ArrayList kelime = new ArrayList<Integer>();
+        ArrayList tuz = new ArrayList<Integer>();
+        int ascii = 0;
+        int[] dizi= null; 
+        for(int i = 0; i<cumle.toCharArray().length ; i++){
+            char character = cumle.charAt(i);
+            ascii = (int) character; 
+            ascii = 5701*ascii;
+            ascii -=10;
+            kelime.add(ascii);
+            tuz.add(ascii);
+            ascii = 6379*ascii;
+            ascii -=13;
+            tuz.add(ascii);
+        }
+        return tuz;
+     }
+    
+    public ArrayList sifre(ArrayList liste){
+        ArrayList cumle = new ArrayList<String>();
+            int num[] = null;
+            for(int i=0;i<liste.size();i++){
+                int a =(int)liste.get(i);
+                String b = ",";
+                char convertedChar = (char)a;
+                if(!b.equals(convertedChar)){
+                cumle.add(convertedChar);
+                }
+            }
+        return cumle;
     }
-    public void Cozum(){
-        //şifreli metin buradan çözülüp gösterilecek
+    public ArrayList cozum(ArrayList liste){
+        ArrayList cumle = new ArrayList<String>();
+            int num[] = null;
+            for(int i=0;i<liste.size();i++){
+                int a =(int)liste.get(i);
+                a+=10;
+                a= a/5701;
+                String b = ",";
+                char convertedChar = (char)a;
+                if(!b.equals(convertedChar)){
+                cumle.add(convertedChar);
+                }
+            }
+        return cumle;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -172,4 +234,5 @@ public class Ekran extends javax.swing.JFrame {
     private javax.swing.JButton sifrele;
     private javax.swing.JTextArea sifreliMetin;
     // End of variables declaration//GEN-END:variables
+
 }
