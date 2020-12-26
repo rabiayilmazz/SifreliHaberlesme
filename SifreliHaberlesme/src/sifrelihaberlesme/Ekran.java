@@ -217,7 +217,7 @@ public class Ekran extends javax.swing.JFrame {
                 cumle.add(convertedChar);
                 }
             }
-        return cumle;
+        return cumle; // yorum 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
