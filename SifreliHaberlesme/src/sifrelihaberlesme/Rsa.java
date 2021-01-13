@@ -25,7 +25,7 @@ public class Rsa {
     int e = rand.nextInt(fonk);
     
     public void sifreli(ArrayList list, int e) {
-        for(int i = 0 ; i<=list.size() ; i++ ){
+        for(int i = 0 ; i< list.size() ; i++ ){
             e = 3;
             int dizi[] = null;
             int a = (int) list.get(i);
