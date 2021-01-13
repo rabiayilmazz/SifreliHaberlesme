@@ -6,8 +6,12 @@ import javax.swing.JFrame;
 
 public class Ekran extends javax.swing.JFrame {
 
+    
+    Rsa rsa = new Rsa();
     public Ekran() {
         initComponents();
+        System.out.println("deger : " + rsa.e);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -26,6 +30,7 @@ public class Ekran extends javax.swing.JFrame {
         gonder = new javax.swing.JButton();
         sifrele = new javax.swing.JButton();
         cozumle = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,6 +84,8 @@ public class Ekran extends javax.swing.JFrame {
             }
         });
 
+        jTextField1.setText("jTextField1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -96,21 +103,26 @@ public class Ekran extends javax.swing.JFrame {
                         .addComponent(sifrele))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(alici, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(gonderen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(sifre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2)
-                            .addComponent(jScrollPane3))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(alici, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(gonderen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(sifre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane2)
+                                    .addComponent(jScrollPane3))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(85, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gonderen, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -139,7 +151,7 @@ public class Ekran extends javax.swing.JFrame {
     }//GEN-LAST:event_gonderActionPerformed
 
     private void sifreleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifreleActionPerformed
-        sifreliMetin.setText(sifre(tuzla(asilMetin.getText())) + "");
+        sifreliMetin.setText(sifre(harfAl(asilMetin.getText())) + "");
     }//GEN-LAST:event_sifreleActionPerformed
 
     private void cozumleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cozumleActionPerformed
@@ -162,33 +174,10 @@ public class Ekran extends javax.swing.JFrame {
         for(int i = 0; i<cumle.toCharArray().length ; i++){
             char character = cumle.charAt(i);
             ascii = (int) character; 
-            ascii = 5701*ascii;
-            ascii -=10;
             kelime.add(ascii);
-            tuz.add(ascii);
-            ascii = 6379*ascii;
-            ascii -=13;
-            tuz.add(ascii);
+            rsa.sifreli(kelime,rsa.e);
         }
         return kelime;
-     }
-    public ArrayList tuzla(String cumle){
-        ArrayList kelime = new ArrayList<Integer>();
-        ArrayList tuz = new ArrayList<Integer>();
-        int ascii = 0;
-        int[] dizi= null; 
-        for(int i = 0; i<cumle.toCharArray().length ; i++){
-            char character = cumle.charAt(i);
-            ascii = (int) character; 
-            ascii = 5701*ascii;
-            ascii -=10;
-            kelime.add(ascii);
-            tuz.add(ascii);
-            ascii = 6379*ascii;
-            ascii -=13;
-            tuz.add(ascii);
-        }
-        return tuz;
      }
     
     public ArrayList sifre(ArrayList liste){
@@ -209,15 +198,14 @@ public class Ekran extends javax.swing.JFrame {
             int num[] = null;
             for(int i=0;i<liste.size();i++){
                 int a =(int)liste.get(i);
-                a+=10;
-                a= a/5701;
                 String b = ",";
                 char convertedChar = (char)a;
                 if(!b.equals(convertedChar)){
                 cumle.add(convertedChar);
+                System.out.println(convertedChar);
                 }
             }
-        return cumle; // yorum 
+        return cumle; 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -230,6 +218,7 @@ public class Ekran extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel sifre;
     private javax.swing.JButton sifrele;
     private javax.swing.JTextArea sifreliMetin;
