@@ -1,17 +1,19 @@
 
 package sifrelihaberlesme;
 
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
 public class Ekran extends javax.swing.JFrame {
 
-    
-    Rsa rsa = new Rsa();
+    private static String bytesToString(byte[] bytes) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Ekran() {
         initComponents();
-        System.out.println("deger : " + rsa.e);
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -147,66 +149,40 @@ public class Ekran extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void gonderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gonderActionPerformed
-        cozumluMetin.setText(asilMetin.getText() + "");
+        cozumluMetin.setText("aaa");
     }//GEN-LAST:event_gonderActionPerformed
 
     private void sifreleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifreleActionPerformed
-        sifreliMetin.setText(sifre(harfAl(asilMetin.getText())) + "");
+        sifreliMetin.setText("aaa");
     }//GEN-LAST:event_sifreleActionPerformed
 
     private void cozumleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cozumleActionPerformed
-        cozumluMetin.setText(cozum(harfAl(asilMetin.getText())) + "");
+        cozumluMetin.setText("aaa");
     }//GEN-LAST:event_cozumleActionPerformed
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Ekran().setVisible(true);
             }
         });
-    }
+        
     
-    public ArrayList harfAl(String cumle){
-        ArrayList kelime = new ArrayList<Integer>();
-        ArrayList tuz = new ArrayList<Integer>();
-        int ascii = 0;
-        int[] dizi= null; 
-        for(int i = 0; i<cumle.toCharArray().length ; i++){
-            char character = cumle.charAt(i);
-            ascii = (int) character; 
-            kelime.add(ascii);
-            rsa.sifreli(kelime,rsa.e);
-        }
-        return kelime;
-     }
-    
-    public ArrayList sifre(ArrayList liste){
-        ArrayList cumle = new ArrayList<String>();
-            int num[] = null;
-            for(int i=0;i<liste.size();i++){
-                int a =(int)liste.get(i);
-                String b = ",";
-                char convertedChar = (char)a;
-                if(!b.equals(convertedChar)){
-                cumle.add(convertedChar);
-                }
-            }
-        return cumle;
+        Rsa rsa = new Rsa();
+        DataInputStream in = new DataInputStream(System.in);
+        String teststring;
+        System.out.println("Enter the plain text:"); 
+        teststring = in.readLine();
+        System.out.println("Encrypting String: " + teststring);
+        System.out.println("String in Bytes: "+ bytesToString(teststring.getBytes()));
+        // encrypt
+        byte[] encrypted = rsa.encrypt(teststring.getBytes());
+        // decrypt
+        byte[] decrypted = rsa.decrypt(encrypted);
+        System.out.println("Decrypting Bytes: " + bytesToString(decrypted));
+        System.out.println("Decrypted String: " + new String(decrypted));
     }
-    public ArrayList cozum(ArrayList liste){
-        ArrayList cumle = new ArrayList<String>();
-            int num[] = null;
-            for(int i=0;i<liste.size();i++){
-                int a =(int)liste.get(i);
-                String b = ",";
-                char convertedChar = (char)a;
-                if(!b.equals(convertedChar)){
-                cumle.add(convertedChar);
-                System.out.println(convertedChar);
-                }
-            }
-        return cumle; 
-    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel alici;
