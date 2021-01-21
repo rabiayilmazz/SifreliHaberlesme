@@ -3,17 +3,50 @@ package sifrelihaberlesme;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JFrame;
 
 public class Ekran extends javax.swing.JFrame {
+    private BigInteger p;
+    private BigInteger q;
+    private BigInteger N;
+    private BigInteger phi;
+    private BigInteger e;
+    private BigInteger d;
+    private int        bitlength = 1024;
+    private Random     r;
 
     private static String bytesToString(byte[] bytes) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String test = "";
+        for (byte b : encrypted)
+        {
+            test += Byte.toString(b);
+        }
+        return test;
     }
 
     public Ekran() {
         initComponents();
+        r = new Random();
+        p = BigInteger.probablePrime(bitlength, r);
+        q = BigInteger.probablePrime(bitlength, r);
+        N = p.multiply(q);
+        phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
+        e = BigInteger.probablePrime(bitlength / 2, r);
+        while (phi.gcd(e).compareTo(BigInteger.ONE) > 0 && e.compareTo(phi) < 0)
+        {
+            e.add(BigInteger.ONE);
+        }
+        d = e.modInverse(phi);
+    }
+     public Ekran(BigInteger e, BigInteger d, BigInteger N)
+    {
+        initComponents();
+        this.e = e;
+        this.d = d;
+        this.N = N;
     }
 
     @SuppressWarnings("unchecked")
@@ -157,7 +190,7 @@ public class Ekran extends javax.swing.JFrame {
     }//GEN-LAST:event_sifreleActionPerformed
 
     private void cozumleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cozumleActionPerformed
-        cozumluMetin.setText("aaa");
+        cozumluMetin.setText("aaaa");
     }//GEN-LAST:event_cozumleActionPerformed
 
     public static void main(String args[]) throws IOException {
@@ -166,19 +199,33 @@ public class Ekran extends javax.swing.JFrame {
                 new Ekran().setVisible(true);
             }
         });
-        
-    
-        Rsa rsa = new Rsa();
+        Ekran ekran = new Ekran();
         DataInputStream in = new DataInputStream(System.in);
         String teststring;
-        System.out.println("Enter the plain text:"); 
+        System.out.println("Enter the plain text:");
         teststring = in.readLine();
+        deneme(teststring);
+        
+    }
+     // Encrypt message
+    public byte[] encrypt(byte[] message)
+    {
+        return (new BigInteger(message)).modPow(e, N).toByteArray();
+    }
+    // Decrypt message
+    public byte[] decrypt(byte[] message)
+    {
+        return (new BigInteger(message)).modPow(d, N).toByteArray();
+    }
+     static void deneme(String teststring) {
+         Rsa rsa = new Rsa();
         System.out.println("Encrypting String: " + teststring);
-        System.out.println("String in Bytes: "+ bytesToString(teststring.getBytes()));
+        System.out.println("String in Bytes: "
+                + bytesToString(teststring.getBytes()));
         // encrypt
-        byte[] encrypted = rsa.encrypt(teststring.getBytes());
+        byte[] encrypted = ekran.encrypt(teststring.getBytes());
         // decrypt
-        byte[] decrypted = rsa.decrypt(encrypted);
+        byte[] decrypted = ekran.decrypt(encrypted);
         System.out.println("Decrypting Bytes: " + bytesToString(decrypted));
         System.out.println("Decrypted String: " + new String(decrypted));
     }
