@@ -19,21 +19,4 @@ public class Rsa
 {
     
 
-    public Rsa()
-    {
-        
-    }
-   
-    @SuppressWarnings("deprecation")
-    public static void main(String[] args) throws IOException
-    {
-        ;
-        
-    }
-
-    private static String bytesToString(byte[] encrypted)
-    {
-        
-    }
-
 }

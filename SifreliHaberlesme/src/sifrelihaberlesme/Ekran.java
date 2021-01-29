@@ -19,8 +19,8 @@ public class Ekran extends javax.swing.JFrame {
     private Random     r;
 
     private static String bytesToString(byte[] bytes) {
-        String test = "";
-        for (byte b : encrypted)
+         String test = "";
+        for (byte b : bytes)
         {
             test += Byte.toString(b);
         }
@@ -182,19 +182,36 @@ public class Ekran extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void gonderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gonderActionPerformed
-        cozumluMetin.setText("aaa");
+                cozumluMetin.setText(asilMetin.getText());
+        
+        
     }//GEN-LAST:event_gonderActionPerformed
 
     private void sifreleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifreleActionPerformed
-        sifreliMetin.setText("aaa");
+       // sifreliMetin.setText(asilMetin.getText());
+       System.out.println("ŞİFRELE BUTONUNA TIKLANDI @@@@@@Q");
+        Ekran ekran = new Ekran();
+        DataInputStream in = new DataInputStream(System.in);
+        String teststring;
+       // asilMetin.setText("dif aa geliyo");
+        teststring = asilMetin.getText();
+       
+        System.out.println("asilMetin db:"+asilMetin.getText());
+        System.out.println("TEST STRING @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+teststring);
+        if(teststring != null && !teststring.trim().isEmpty()){
+        sifreliMetin.setText(FuncSifrele(teststring));}
     }//GEN-LAST:event_sifreleActionPerformed
 
     private void cozumleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cozumleActionPerformed
-        cozumluMetin.setText("aaaa");
+        //cozumluMetin.setText("cozumleActionPerformed");
+        String teststring = sifreliMetin.getText();
+        
+        cozumluMetin.setText(FuncDeSifrele(teststring));
     }//GEN-LAST:event_cozumleActionPerformed
-
+    
     public static void main(String args[]) throws IOException {
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Ekran().setVisible(true);
             }
@@ -202,10 +219,12 @@ public class Ekran extends javax.swing.JFrame {
         Ekran ekran = new Ekran();
         DataInputStream in = new DataInputStream(System.in);
         String teststring;
-        System.out.println("Enter the plain text:");
-        teststring = in.readLine();
-        deneme(teststring);
-        
+        ekran.asilMetin.setText("hi");
+        teststring = ekran.asilMetin.getText();
+       
+        System.out.println("asilMetin db:"+ekran.asilMetin.getText());
+        if(teststring != null && !teststring.trim().isEmpty()){
+        FuncSifrele(teststring);}
     }
      // Encrypt message
     public byte[] encrypt(byte[] message)
@@ -217,20 +236,46 @@ public class Ekran extends javax.swing.JFrame {
     {
         return (new BigInteger(message)).modPow(d, N).toByteArray();
     }
-     static void deneme(String teststring) {
-         Rsa rsa = new Rsa();
-        System.out.println("Encrypting String: " + teststring);
-        System.out.println("String in Bytes: "
-                + bytesToString(teststring.getBytes()));
+    //buradaki değeri nerede atmaya çapuruyoır
+     static String FuncSifrele(String teststring) {
+         String Sifreli;
+        System.out.println("DENEMEDEYİM");
+        Ekran ekran = new Ekran();
+        Rsa rsa = new Rsa();
+        System.out.println("Encrypting String: " + teststring); //diğer projede şifreleme yapmısyınya nerede o buton hangi kod tam orası tam orda 
+       
+              
         // encrypt
         byte[] encrypted = ekran.encrypt(teststring.getBytes());
         // decrypt
         byte[] decrypted = ekran.decrypt(encrypted);
         System.out.println("Decrypting Bytes: " + bytesToString(decrypted));
         System.out.println("Decrypted String: " + new String(decrypted));
+         System.out.println("şifreli  :" + encrypted);
+         System.out.println("şifreli strn :" + encrypted.toString());
+        System.out.println("şifreli strn :" + bytesToString(teststring.getBytes()));
+        Sifreli = bytesToString(teststring.getBytes());
+        return Sifreli;
+    }
+     static String FuncDeSifrele(String teststring) {
+        String deSifreli;
+         Ekran ekran = new Ekran(); //o butonun içine yazmamız gereken kod nerede az önce konsolda çalıstırdın ya bvaska proje
+       //emre3
+         System.out.println("Encrypting String: " + teststring);
+        System.out.println("String in Bytes: "
+                + bytesToString(teststring.getBytes()));
+        // encrypt
+       
+        // decrypt
+        byte[] decrypted = ekran.decrypt(teststring);
+        System.out.println("Decrypting Bytes: " + bytesToString(decrypted));
+        System.out.println("Decrypted String: " + new String(decrypted));
+                 System.out.println("sonuc String: " + bytesToString(teststring.getBytes()));
+       // deSifreli =  bytesToString(decrypted);
+        return new String(decrypted);
     }
   
-
+//bunlar neden private java swingde işler böyle :D oldan oluşturuyorsun burda kod kendisi oluşuyor hmm damam
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel alici;
     private javax.swing.JTextArea asilMetin;
