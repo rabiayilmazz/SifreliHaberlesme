@@ -206,7 +206,7 @@ public class Ekran extends javax.swing.JFrame {
         //cozumluMetin.setText("cozumleActionPerformed");
         String teststring = sifreliMetin.getText();
         
-        cozumluMetin.setText(FuncDeSifrele(teststring));
+        cozumluMetin.setText(FuncDeSifrele(FuncSifrele(teststring)));
     }//GEN-LAST:event_cozumleActionPerformed
     
     public static void main(String args[]) throws IOException {
@@ -251,8 +251,8 @@ public class Ekran extends javax.swing.JFrame {
         byte[] decrypted = ekran.decrypt(encrypted);
         System.out.println("Decrypting Bytes: " + bytesToString(decrypted));
         System.out.println("Decrypted String: " + new String(decrypted));
-         System.out.println("şifreli  :" + encrypted);
-         System.out.println("şifreli strn :" + encrypted.toString());
+        System.out.println("şifreli  :" + encrypted);
+        //System.out.println("şifreli strn :" + encrypted.toString());
         System.out.println("şifreli strn :" + bytesToString(teststring.getBytes()));
         Sifreli = bytesToString(teststring.getBytes());
         return Sifreli;
@@ -261,17 +261,23 @@ public class Ekran extends javax.swing.JFrame {
         String deSifreli;
          Ekran ekran = new Ekran(); //o butonun içine yazmamız gereken kod nerede az önce konsolda çalıstırdın ya bvaska proje
        //emre3
-         System.out.println("Encrypting String: " + teststring);
-        System.out.println("String in Bytes: "
-                + bytesToString(teststring.getBytes()));
-        // encrypt
-       
-        // decrypt
-        byte[] decrypted = ekran.decrypt(teststring);
+        System.out.println("Encrypting String: " + teststring);
+        System.out.println("String in Bytes: " + bytesToString(teststring.getBytes()));
+       // byte[]
+        byte[] encrypted = ekran.encrypt(teststring.getBytes());
+        byte[] decrypted = ekran.decrypt(encrypted);
+        
+        
         System.out.println("Decrypting Bytes: " + bytesToString(decrypted));
         System.out.println("Decrypted String: " + new String(decrypted));
-                 System.out.println("sonuc String: " + bytesToString(teststring.getBytes()));
-       // deSifreli =  bytesToString(decrypted);
+        System.out.println("sonuc String: " + bytesToString(teststring.getBytes()));
+        for(int i = 0; i<= decrypted.length; i++ ){
+            System.out.println(decrypted[i]);
+            char convertedChar = (char)decrypted[i];
+            System.out.println(convertedChar);
+        }
+        deSifreli =  bytesToString(decrypted);
+         System.out.println(deSifreli+ "    osdkfıjglkdfj");
         return new String(decrypted);
     }
   
